@@ -1,0 +1,38 @@
+{
+    "manifest_version": 2,
+
+    "homepage_url": "https://github.com/talopii/portal2-sfx-youtube",
+
+    "author": "Talop B. Foxielock",
+    "name": "Portal 2 SFX for YouTube",
+    "description": "Adds Portal 2 menu sounds to YouTube",
+    "version": "1.1",
+
+    "icons": {
+        "32": "assets/icon.png",
+        "64": "assets/icon@2x.png"
+    },
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{ded49d4c-f489-4ab2-b58f-416d392d6294}"
+        }
+    },
+
+    "web_accessible_resources": [
+        "assets/sound_ui_menu_accept.ogg",
+        "assets/sound_ui_menu_flip_multi.ogg",
+        "assets/sound_ui_menu_focus.ogg"
+    ],
+
+    "content_scripts": [
+        {
+            "matches": ["*://*.youtube.com/*"],
+            "js": [
+                "src/sounds.js",
+                "src/youtube.js",
+                "src/addon.js"
+            ]
+        }
+    ]
+}
