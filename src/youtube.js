@@ -46,7 +46,7 @@ class YouTube {
     static getEndScreen(node = document) {
         YouTube.#requireNode(node);
 
-        let endscreens = node.getElementsByClassName(YouTube.#VIDEO_WALL_ENDSCREEN);
+        const endscreens = node.getElementsByClassName(YouTube.#VIDEO_WALL_ENDSCREEN);
         if (!endscreens) {
             return null;
         } else if (endscreens.length > 1) {
@@ -81,7 +81,7 @@ class YouTube {
     }
 
     static getVideoStream(node = document) {
-        let videoStreams = node.getElementsByClassName(YouTube.#VIDEO_STREAM);
+        const videoStreams = node.getElementsByClassName(YouTube.#VIDEO_STREAM);
         if (!videoStreams) {
             return null;
         } else if (videoStreams.length > 1) {
@@ -91,7 +91,7 @@ class YouTube {
     }
 
     static getVolume(node = document) {
-        let video = YouTube.getVideoStream(node);
+        const video = YouTube.getVideoStream(node);
         if (!video) {
             return 1.0;
         } else if (video.muted) {

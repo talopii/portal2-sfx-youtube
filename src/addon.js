@@ -32,11 +32,9 @@ class Addon {
     };
 
     #knownVideoWalls;
-    #endscreenWasVisible;
 
     constructor() {
         this.#knownVideoWalls = [];
-        this.#endscreenWasVisible = false;
     }
 
     #addVideoWall(node) {
@@ -66,8 +64,8 @@ class Addon {
             return; /* visibility unchanged */
         }
 
-        let endscreen = mutation.target;
-        let endscreenDisplay = endscreen.style.display;
+        const endscreen = mutation.target;
+        const endscreenDisplay = endscreen.style.display;
 
         let isVisible = false;
         if (!endscreenDisplay) {
@@ -76,18 +74,23 @@ class Addon {
             isVisible = false;
         }
 
-        if(!this.#endscreenWasVisible && isVisible) {
+        /*
+         * There used to be a check if the end screen was already
+         * visible before actually playing anything. But the field
+         * responsible for this would become desynchronized. I have
+         * no idea what caused it. The purpose of the check was to
+         * prevent the sound from playing more than once. But this
+         * does not seem to occur when it's not present.
+         */
+        if(isVisible) {
             Sounds.play_ui_menu_flip_multi();
         }
-
-        this.#endscreenWasVisible = isVisible;
     }
 
     #handleMutation(mutation) {
         const endscreen = YouTube.getEndScreen();
         if (endscreen && mutation.target === endscreen) {
             this.#handleEndscreenMutation(mutation);
-            return; /* nothing more to do */
         }
 
         for (const node of mutation.addedNodes) {
@@ -98,7 +101,13 @@ class Addon {
     }
 
     #observeMoviePlayer() {
-        let observeInterval = setInterval(() => {
+        /*
+         * Sometimes the movie player won't be available in time
+         * when this extension is loaded. Using an interval gives
+         * the sight more time to load without causing the addon
+         * to crash and burn.
+         */
+        const observeInterval = setInterval(() => {
             const moviePlayer = YouTube.getMoviePlayer();
             if (!moviePlayer) {
                 return; /* nothing to observe yet */
@@ -120,11 +129,16 @@ class Addon {
     }
 
     init() {
+        /*
+         * The call to addVideoWalls() is made here in case there are
+         * any video walls already present (and therefore, would not be
+         * caught by the observer).
+         */
         this.#addVideoWalls();
         this.#observeMoviePlayer();
     }
 
 }
 
-let addon = new Addon();
+const addon = new Addon();
 addon.init();
