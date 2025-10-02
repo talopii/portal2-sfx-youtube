@@ -67,7 +67,15 @@ class Addon {
         }
 
         let endscreen = mutation.target;
-        let isVisible = (endscreen.offsetParent !== null);
+        let endscreenDisplay = endscreen.style.display;
+
+        let isVisible = false;
+        if (!endscreenDisplay) {
+            isVisible = true; /* default is inline */
+        } else if(endscreenDisplay === "none") {
+            isVisible = false;
+        }
+
         if(!this.#endscreenWasVisible && isVisible) {
             Sounds.play_ui_menu_flip_multi();
         }
@@ -120,5 +128,3 @@ class Addon {
 
 let addon = new Addon();
 addon.init();
-
-console.log("MREOW");
