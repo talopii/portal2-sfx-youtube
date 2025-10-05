@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
 
     "homepage_url": "https://github.com/talopii/portal2-sfx-youtube",
 
@@ -20,9 +20,14 @@
     },
 
     "web_accessible_resources": [
-        "assets/sound_ui_menu_accept.ogg",
-        "assets/sound_ui_menu_flip_multi.ogg",
-        "assets/sound_ui_menu_focus.ogg"
+        {
+            "matches": ["*://*.youtube.com/*"],
+            "resources":[
+                "assets/sound_ui_menu_accept.ogg",
+                "assets/sound_ui_menu_flip_multi.ogg",
+                "assets/sound_ui_menu_focus.ogg"
+            ]
+        }
     ],
 
     "content_scripts": [

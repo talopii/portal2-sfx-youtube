@@ -29,34 +29,32 @@ class Sounds {
     static #UI_MENU_FLIP_MULTI_URL = "assets/sound_ui_menu_flip_multi.ogg";
     static #UI_MENU_FOCUS_URL = "assets/sound_ui_menu_focus.ogg";
 
-    static play_ui_menu_accept() {
-        const audio = new Audio(
-            browser.runtime.getURL(Sounds.#UI_MENU_ACCEPT_URL));
+    static #play_sound(path) {
+        let runtime = null;
+        if (typeof browser === "undefined") {
+             runtime = chrome.runtime;
+        } else {
+             runtime = browser.runtime;
+        }
+
+        const audio = new Audio(runtime.getURL(path));
 
         audio.volume = YouTube.getVolume();
         audio.play()
             .catch(console.log)
             .finally(audio.remove());
+    }
+
+    static play_ui_menu_accept() {
+        Sounds.#play_sound(Sounds.#UI_MENU_ACCEPT_URL);
     }
 
     static play_ui_menu_flip_multi() {
-        const audio = new Audio(
-            browser.runtime.getURL(Sounds.#UI_MENU_FLIP_MULTI_URL));
-
-        audio.volume = YouTube.getVolume();
-        audio.play()
-            .catch(console.log)
-            .finally(audio.remove());
+        Sounds.#play_sound(Sounds.#UI_MENU_FLIP_MULTI_URL);
     }
 
     static play_ui_menu_focus() {
-        const audio = new Audio(
-            browser.runtime.getURL(Sounds.#UI_MENU_FOCUS_URL));
-
-        audio.volume = YouTube.getVolume();
-        audio.play()
-            .catch(console.log)
-            .finally(audio.remove());
+        Sounds.#play_sound(Sounds.#UI_MENU_FOCUS_URL);
     }
 
 }
